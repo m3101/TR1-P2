@@ -1,0 +1,12 @@
+read_verilog verilog_spice/cod_decod/cod_decod.v
+read_verilog -lib ~/Tools/mixedsim/models/yosys/prim_cells.v
+
+proc; memory; techmap;
+
+dfflibmap -liberty ~/Tools/mixedsim/models/yosys/prim_cells.lib
+abc -liberty ~/Tools/mixedsim/models/yosys/prim_cells.lib;;
+
+write_verilog synth/modulador_syn.v
+write_spice -neg d_low -pos d_high synth/cod_decod_ngspice.mod
+
+show -prefix synth/vis/cod_decod
